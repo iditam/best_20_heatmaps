@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All heatmap Files</title>
+</head>
+<body>
+  <h1>All heatmap Files</h1>
+  <ul id="fileList"></ul>
+
+  <script>
+    // Fetch the list of files in the repository using GitHub's API
+    fetch('https://api.github.com/repos/iditam/best_20_heatmaps/contents/')
+      .then(response => response.json())
+      .then(data => {
+        // Filter the response to only include HTML files
+        const htmlFiles = data.filter(file => file.name.endsWith('.html'));
+
+        // Generate the list of links dynamically
+        const fileList = document.getElementById('fileList');
+        htmlFiles.forEach(file => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = file.download_url;
+          link.textContent = file.name.replace('.html', '');
+          listItem.appendChild(link);
+          fileList.appendChild(listItem);
+        });
+      });
+  </script>
+</body>
+</html>
